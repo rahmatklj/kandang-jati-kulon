@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Video Dokumentasi Kegiatan - Kelurahan Sidomukti')
+@section('title', 'Video Dokumentasi Kegiatan - Kelurahan Kandang Jati Kulon')
 
 @section('content')
 <div class="bg-slate-100/70 min-h-screen py-8"
@@ -49,7 +49,7 @@
                 </ol>
             </nav>
 
-            <div class="max-w-3xl">
+            <div class="max-w-4xl">
                 <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-900/40 border border-emerald-500/30 rounded-full text-emerald-300 text-[11px] font-bold uppercase tracking-wider mb-3">
                     <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                     Dokumentasi Video Resmi
@@ -58,55 +58,37 @@
                     Video Dokumentasi & Pelayanan Kelurahan
                 </h1>
                 <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-2xl">
-                    Kumpulan tayangan video dokumentasi program pembangunan, liputan liputan kegiatan kemasyarakatan, serta video profil resmi Kelurahan Sidomukti.
+                    Kumpulan tayangan video dokumentasi program pembangunan, liputan liputan kegiatan kemasyarakatan, serta video profil resmi Kelurahan Kandang Jati Kulon.
                 </p>
+
+                {{-- Category Filter Pills in Header (Dynamic Video Categories from Master Kategori) --}}
+                @if(isset($categories) && $categories->count() > 0)
+                <div class="flex flex-wrap items-center gap-2 mt-5">
+                    <a href="{{ route('videos.index', ['category' => 'all']) }}" 
+                       class="px-3.5 py-1.5 rounded-full text-xs font-semibold transition {{ ($selectedCategory ?? 'all') === 'all' ? 'bg-emerald-500 text-slate-950 font-bold shadow-sm' : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700' }}">
+                        Semua Video
+                    </a>
+                    @foreach($categories as $cat)
+                    <a href="{{ route('videos.index', ['category' => $cat->slug]) }}" 
+                       class="px-3.5 py-1.5 rounded-full text-xs font-semibold transition {{ ($selectedCategory ?? '') === $cat->slug || ($selectedCategory ?? '') === $cat->name ? 'bg-emerald-500 text-slate-950 font-bold shadow-sm' : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700' }}">
+                        {{ $cat->name }}
+                    </a>
+                    @endforeach
+                </div>
+                @endif
             </div>
         </div>
     </div>
 
     <!-- Main Container -->
-    <div class="container mx-auto px-4 max-w-7xl">
-
-        <!-- Filter Bar Kategori Video -->
-        <div class="bg-white rounded-2xl p-4 md:p-5 shadow-sm border border-slate-200/90 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
-                <a href="{{ route('videos.index', ['category' => 'all']) }}" 
-                   class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap {{ ($category ?? 'all') === 'all' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">
-                   Semua Video
-                </a>
-                <a href="{{ route('videos.index', ['category' => 'pemerintahan']) }}" 
-                   class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap {{ ($category ?? '') === 'pemerintahan' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">
-                   Pemerintahan
-                </a>
-                <a href="{{ route('videos.index', ['category' => 'pembangunan']) }}" 
-                   class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap {{ ($category ?? '') === 'pembangunan' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">
-                   Pembangunan
-                </a>
-                <a href="{{ route('videos.index', ['category' => 'pemberdayaan']) }}" 
-                   class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap {{ ($category ?? '') === 'pemberdayaan' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">
-                   Pemberdayaan
-                </a>
-                <a href="{{ route('videos.index', ['category' => 'keagamaan']) }}" 
-                   class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap {{ ($category ?? '') === 'keagamaan' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">
-                   Keagamaan
-                </a>
-                <a href="{{ route('videos.index', ['category' => 'hut-ri']) }}" 
-                   class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap {{ ($category ?? '') === 'hut-ri' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">
-                   HUT RI
-                </a>
-            </div>
-
-            <div class="text-xs text-slate-500 font-medium shrink-0">
-                Menampilkan {{ $videos->total() }} Video
-            </div>
-        </div>
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
 
         <!-- Grid Kartu Video -->
         @if($videos->count() > 0)
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10">
+        <div class="grid grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-1.5 sm:gap-6 mb-10">
             @foreach($videos as $video)
             <div @click="openPlayer('{{ $video->embed_url }}', '{{ addslashes($video->title) }}')"
-                 class="bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col group cursor-pointer">
+                 class="bg-white rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col group cursor-pointer">
                 
                 <!-- Thumbnail Cover Video (16:9 Ratio) -->
                 <div class="relative aspect-video w-full overflow-hidden bg-slate-900">
@@ -114,24 +96,24 @@
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition duration-300"></div>
 
                     <!-- Category Badge Top-Left -->
-                    <div class="absolute top-3 left-3 z-10">
-                        <span class="px-2.5 py-1 bg-slate-900/80 backdrop-blur-md text-emerald-400 text-[10px] font-extrabold uppercase tracking-wider rounded-lg border border-slate-700">
-                            {{ ucfirst($video->category) }}
+                    <div class="absolute top-1.5 left-1.5 sm:top-3 sm:left-3 z-10">
+                        <span class="px-1.5 py-0.5 sm:px-2.5 sm:py-1 bg-slate-900/80 backdrop-blur-md text-emerald-400 text-[7px] sm:text-[10px] font-extrabold uppercase tracking-wider rounded-md sm:rounded-lg border border-slate-700">
+                            {{ isset($categories) ? ($categories->firstWhere('slug', $video->category)?->name ?? $categories->firstWhere('name', $video->category)?->name ?? ucfirst($video->category)) : ucfirst($video->category) }}
                         </span>
                     </div>
 
                     <!-- Play Icon Center Overlay -->
                     <div class="absolute inset-0 flex items-center justify-center z-10">
-                        <div class="w-13 h-13 rounded-full bg-emerald-600/90 text-white shadow-xl flex items-center justify-center group-hover:scale-110 group-hover:bg-emerald-500 transition duration-300 border border-white/20">
-                            <svg class="w-7 h-7 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <div class="w-7 h-7 sm:w-13 sm:h-13 rounded-full bg-emerald-600/90 text-white shadow-xl flex items-center justify-center group-hover:scale-110 group-hover:bg-emerald-500 transition duration-300 border border-white/20">
+                            <svg class="w-3.5 h-3.5 sm:w-7 sm:h-7 ml-0.5 sm:ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                         </div>
                     </div>
 
                     <!-- Duration Badge Bottom-Right -->
                     @if($video->duration)
-                    <div class="absolute bottom-3 right-3 z-10">
-                        <span class="px-2.5 py-1 bg-slate-950/90 text-white text-[11px] font-bold rounded-lg border border-slate-700 flex items-center gap-1">
-                            <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <div class="absolute bottom-1.5 right-1.5 sm:bottom-3 sm:right-3 z-10">
+                        <span class="px-1.5 py-0.5 sm:px-2.5 sm:py-1 bg-slate-950/90 text-white text-[7px] sm:text-[11px] font-bold rounded-md sm:rounded-lg border border-slate-700 flex items-center gap-0.5 sm:gap-1">
+                            <svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             {{ $video->duration }}
                         </span>
                     </div>
@@ -139,25 +121,25 @@
                 </div>
 
                 <!-- Info Body -->
-                <div class="p-4 flex flex-col justify-between flex-grow">
+                <div class="p-2 sm:p-4 flex flex-col justify-between flex-grow">
                     <div>
-                        <h3 class="font-bold text-sm text-slate-800 leading-snug group-hover:text-emerald-700 transition line-clamp-2 mb-2">
+                        <h3 class="font-bold text-[9px] sm:text-sm text-slate-800 leading-tight sm:leading-snug group-hover:text-emerald-700 transition line-clamp-2 mb-1 sm:mb-2">
                             {{ $video->title }}
                         </h3>
                         @if($video->description)
-                        <p class="text-xs text-slate-500 line-clamp-2 mb-3">
+                        <p class="hidden sm:block text-xs text-slate-500 line-clamp-2 mb-3">
                             {{ $video->description }}
                         </p>
                         @endif
                     </div>
 
-                    <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
-                        <span class="flex items-center gap-1">
-                            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            {{ $video->created_at->translatedFormat('d F Y') }}
+                    <div class="pt-1.5 sm:pt-3 border-t border-slate-100 flex items-center justify-between text-[7px] sm:text-xs text-slate-500 font-medium">
+                        <span class="flex items-center gap-0.5 sm:gap-1">
+                            <svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <span class="truncate max-w-[50px] sm:max-w-none">{{ $video->created_at->translatedFormat('d M Y') }}</span>
                         </span>
                         <span class="text-emerald-600 font-bold group-hover:translate-x-0.5 transition flex items-center gap-0.5">
-                            Putar Video &rarr;
+                            Putar &rarr;
                         </span>
                     </div>
                 </div>
@@ -187,11 +169,10 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         @keydown.escape.window="closePlayer()"
          class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md"
          style="display: none;">
         
-        <div @click.away="closePlayer()" class="relative max-w-4xl w-full bg-slate-900 rounded-2xl overflow-hidden shadow-2xl border border-slate-800">
+        <div class="relative max-w-4xl w-full bg-slate-900 rounded-2xl overflow-hidden shadow-2xl border border-slate-800">
             <!-- Close Button -->
             <button @click="closePlayer()" class="absolute top-4 right-4 z-50 w-11 h-11 bg-slate-950/80 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition shadow-lg border border-slate-700 cursor-pointer">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>

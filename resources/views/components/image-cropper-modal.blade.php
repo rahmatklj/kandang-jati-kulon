@@ -1,29 +1,29 @@
 <!-- Modal Crop Foto Universal (HD Resolution Auto-Adapter) -->
 <div id="cropperModal" class="fixed inset-0 z-50 overflow-y-auto hidden" x-cloak>
     <!-- Overlay Backdrop -->
-    <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-xs transition-opacity" onclick="window.CropHelper.close()"></div>
+    <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-xs transition-opacity"></div>
 
     <!-- Modal Box -->
-    <div class="flex min-h-full items-center justify-center p-4 text-center">
-        <div class="relative w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white p-6 text-left shadow-2xl transition-all border border-slate-100 flex flex-col gap-4">
+    <div class="flex min-h-full items-center justify-center p-3 sm:p-4 text-center">
+        <div class="relative w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white p-4 sm:p-5 text-left shadow-2xl transition-all border border-slate-100 flex flex-col max-h-[92vh] gap-3 my-auto">
             
             <!-- Header Modal -->
-            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div class="flex items-center justify-between pb-2.5 border-b border-slate-100 shrink-0">
                 <div class="flex items-center gap-2.5">
-                    <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl border border-emerald-100">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="p-2 bg-emerald-50 text-emerald-600 rounded-xl border border-emerald-100">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 0L4 4m5.121 5.121L4 14.121m5.121-5.121l7-7"></path>
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-extrabold text-slate-800 flex items-center gap-2">
+                        <h3 class="text-sm sm:text-base font-extrabold text-slate-800 flex items-center gap-2">
                             Potong & Sesuaikan Foto (HD Quality)
                             <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase rounded-full">Auto Presets</span>
                         </h3>
-                        <p class="text-xs text-slate-500">Atur posisi, skala, dan rasio foto agar otomatis pas dan beresolusi tinggi saat diunggah.</p>
+                        <p class="text-[11px] text-slate-500">Atur posisi, skala, dan rasio foto agar otomatis pas dan beresolusi tinggi saat diunggah.</p>
                     </div>
                 </div>
-                <button type="button" onclick="window.CropHelper.close()" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-xl hover:bg-slate-100 transition cursor-pointer">
+                <button type="button" onclick="window.CropHelper.close()" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-xl hover:bg-slate-100 transition cursor-pointer" title="Tutup Modal">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
@@ -31,64 +31,67 @@
             </div>
 
             <!-- Cropper Canvas Container -->
-            <div class="w-full bg-slate-900 rounded-xl overflow-hidden min-h-[340px] max-h-[480px] flex items-center justify-center relative shadow-inner">
+            <div class="w-full bg-slate-900 rounded-xl overflow-hidden min-h-[180px] max-h-[38vh] sm:max-h-[44vh] flex items-center justify-center relative shadow-inner shrink">
                 <img id="cropperImage" src="" alt="Gambar Crop" class="max-w-full block">
             </div>
 
             <!-- Controls Toolbar -->
-            <div class="flex flex-wrap items-center justify-between gap-3 p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
+            <div class="flex flex-wrap items-center justify-between gap-2 p-2.5 bg-slate-50 rounded-xl border border-slate-200/80 shrink-0 text-xs">
                 <!-- Rasio Aspek Buttons -->
-                <div class="flex items-center gap-1.5 flex-wrap text-xs">
-                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1">Rasio Pas:</span>
-                    <button type="button" onclick="window.CropHelper.setRatio(16/9)" class="btn-aspect px-3 py-1.5 rounded-lg border border-slate-200 bg-white font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition shadow-2xs">
-                        16:9 (Banner / Sampul Album)
+                <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-1">Rasio Pas:</span>
+                    <button type="button" onclick="window.CropHelper.setRatio(16/9)" class="btn-aspect px-2.5 py-1 rounded-lg border border-slate-200 bg-white font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition text-[11px] shadow-2xs cursor-pointer">
+                        16:9 (Banner)
                     </button>
-                    <button type="button" onclick="window.CropHelper.setRatio(1)" class="btn-aspect px-3 py-1.5 rounded-lg border border-slate-200 bg-white font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition shadow-2xs">
+                    <button type="button" onclick="window.CropHelper.setRatio(1)" class="btn-aspect px-2.5 py-1 rounded-lg border border-slate-200 bg-white font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition text-[11px] shadow-2xs cursor-pointer">
                         1:1 (Pas Foto / Profil)
                     </button>
-                    <button type="button" onclick="window.CropHelper.setRatio(4/3)" class="btn-aspect px-3 py-1.5 rounded-lg border border-slate-200 bg-white font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition shadow-2xs">
+                    <button type="button" onclick="window.CropHelper.setRatio(4/3)" class="btn-aspect px-2.5 py-1 rounded-lg border border-slate-200 bg-white font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition text-[11px] shadow-2xs cursor-pointer">
                         4:3 (Dokumentasi)
                     </button>
-                    <button type="button" onclick="window.CropHelper.setRatio(3/4)" class="btn-aspect px-3 py-1.5 rounded-lg border border-slate-200 bg-white font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition shadow-2xs">
+                    <button type="button" onclick="window.CropHelper.setRatio(3/4)" class="btn-aspect px-2.5 py-1 rounded-lg border border-slate-200 bg-white font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition text-[11px] shadow-2xs cursor-pointer">
                         3:4 (Potret Resmi)
                     </button>
-                    <button type="button" onclick="window.CropHelper.setRatio(NaN)" class="btn-aspect px-3 py-1.5 rounded-lg border border-slate-200 bg-white font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition shadow-2xs">
+                    <button type="button" onclick="window.CropHelper.setRatio(NaN)" class="btn-aspect px-2.5 py-1 rounded-lg border border-slate-200 bg-white font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition text-[11px] shadow-2xs cursor-pointer">
                         Bebas
                     </button>
                 </div>
 
                 <!-- Action Transform Buttons -->
-                <div class="flex items-center gap-1.5">
-                    <button type="button" onclick="window.CropHelper.rotate(-90)" class="p-2 bg-white border border-slate-200 hover:bg-slate-100 rounded-lg text-slate-700 transition shadow-2xs" title="Putar Kiri (-90°)">
+                <div class="flex items-center gap-1">
+                    <button type="button" onclick="window.CropHelper.rotate(-90)" class="p-1.5 bg-white border border-slate-200 hover:bg-slate-100 rounded-lg text-slate-700 transition shadow-2xs cursor-pointer" title="Putar Kiri (-90°)">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path></svg>
                     </button>
-                    <button type="button" onclick="window.CropHelper.rotate(90)" class="p-2 bg-white border border-slate-200 hover:bg-slate-100 rounded-lg text-slate-700 transition shadow-2xs" title="Putar Kanan (+90°)">
+                    <button type="button" onclick="window.CropHelper.rotate(90)" class="p-1.5 bg-white border border-slate-200 hover:bg-slate-100 rounded-lg text-slate-700 transition shadow-2xs cursor-pointer" title="Putar Kanan (+90°)">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10H11a8 8 0 00-8 8v2m18-10l-6 6m6-6l-6-6"></path></svg>
                     </button>
-                    <button type="button" onclick="window.CropHelper.zoom(0.1)" class="p-2 bg-white border border-slate-200 hover:bg-slate-100 rounded-lg text-slate-700 transition shadow-2xs" title="Perbesar (+)">
+                    <button type="button" onclick="window.CropHelper.zoom(0.1)" class="p-1.5 bg-white border border-slate-200 hover:bg-slate-100 rounded-lg text-slate-700 transition shadow-2xs cursor-pointer" title="Perbesar (+)">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
                     </button>
-                    <button type="button" onclick="window.CropHelper.zoom(-0.1)" class="p-2 bg-white border border-slate-200 hover:bg-slate-100 rounded-lg text-slate-700 transition shadow-2xs" title="Perkecil (-)">
+                    <button type="button" onclick="window.CropHelper.zoom(-0.1)" class="p-1.5 bg-white border border-slate-200 hover:bg-slate-100 rounded-lg text-slate-700 transition shadow-2xs cursor-pointer" title="Perkecil (-)">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM7 10h6"></path></svg>
                     </button>
-                    <button type="button" onclick="window.CropHelper.reset()" class="p-2 bg-white border border-slate-200 hover:bg-slate-100 rounded-lg text-slate-700 transition shadow-2xs" title="Reset Posisi">
+                    <button type="button" onclick="window.CropHelper.reset()" class="p-1.5 bg-white border border-slate-200 hover:bg-slate-100 rounded-lg text-slate-700 transition shadow-2xs cursor-pointer" title="Reset Posisi">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                     </button>
                 </div>
             </div>
 
-            <!-- Footer Action Buttons -->
-            <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-100">
+            <!-- Footer Action Buttons (Fixed / Always Visible) -->
+            <div class="flex items-center justify-end gap-3 pt-2.5 border-t border-slate-100 shrink-0 bg-white">
                 <button type="button" onclick="window.CropHelper.close()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs transition cursor-pointer">
                     Batal
                 </button>
-                <button type="button" onclick="window.CropHelper.applyCrop()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs transition shadow-md flex items-center gap-2 cursor-pointer">
+                <button type="button" onclick="window.CropHelper.applyCrop()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-extrabold text-xs transition shadow-md flex items-center gap-2 cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
                     </svg>
-                    Terapkan & Export Foto HD
+                    <span>Simpan & Gunakan Foto HD</span>
                 </button>
             </div>
+
+        </div>
+    </div>
 
         </div>
     </div>
@@ -105,9 +108,14 @@ window.CropHelper = (function() {
         init: function() {
             // Auto bind event listener pada seluruh input file gambar yang tidak memiliki atribut data-no-crop
             document.addEventListener('change', function(e) {
-                if (e.target && e.target.matches('input[type="file"][accept*="image"]') && !e.target.dataset.noCrop) {
+                if (e.target && e.target.matches('input[type="file"][accept*="image"]')) {
                     if (e.target.files && e.target.files[0]) {
-                        window.CropHelper.open(e.target);
+                        if (window.validateImageUpload && !window.validateImageUpload(e.target)) {
+                            return;
+                        }
+                        if (!e.target.dataset.noCrop) {
+                            window.CropHelper.open(e.target);
+                        }
                     }
                 }
             });
@@ -117,6 +125,10 @@ window.CropHelper = (function() {
             targetInput = inputElement;
             const file = overrideFile || (inputElement.files ? inputElement.files[0] : null);
             if (!file) return;
+
+            if (window.validateImageUpload && !window.validateImageUpload(inputElement)) {
+                return;
+            }
 
             originalFile = file;
 
@@ -151,10 +163,10 @@ window.CropHelper = (function() {
                     else if (customRatio === '4/3' || customRatio === '4:3') defaultRatio = 4 / 3;
                     else if (customRatio === '3/4' || customRatio === '3:4') defaultRatio = 3 / 4;
                     else defaultRatio = parseFloat(customRatio);
-                } else if (inputName.match(/lurah|avatar|pas_foto|profile|user|foto_lurah/)) {
-                    defaultRatio = 1; // Square 1:1 untuk pas foto/lurah/avatar
-                } else if (inputName.match(/cover|thumbnail|banner|image|photo|galleries|post|foto/)) {
-                    defaultRatio = 16 / 9; // 16:9 Banner/Sampul Album/Berita
+                } else if (inputName.match(/lurah|avatar|pas_foto|profile|user|foto_lurah|logo/)) {
+                    defaultRatio = 1; // Square 1:1 untuk pas foto/lurah/avatar/logo
+                } else if (inputName.match(/cover|thumbnail|banner|hero|background|image|photo|galleries|post|foto/)) {
+                    defaultRatio = 16 / 9; // 16:9 Banner/Sampul Album/Berita/Hero Background
                 }
 
                 cropper = new Cropper(img, {

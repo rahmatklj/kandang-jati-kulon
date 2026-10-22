@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Galeri & Dokumentasi Kegiatan - Kelurahan Sidomukti')
+@section('title', 'Galeri & Dokumentasi Kegiatan - Kelurahan Kandang Jati Kulon')
 
 @section('content')
 <div class="bg-slate-100/70 min-h-screen py-8">
@@ -35,7 +35,7 @@
                 </ol>
             </nav>
 
-            <div class="max-w-3xl">
+            <div class="max-w-4xl">
                 <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-900/40 border border-emerald-500/30 rounded-full text-emerald-300 text-[11px] font-bold uppercase tracking-wider mb-3">
                     <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                     Arsip Album Dokumentasi Visual
@@ -44,51 +44,37 @@
                     Galeri Album Foto Kegiatan Kelurahan
                 </h1>
                 <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-2xl">
-                    Arsip dokumentasi resmi program pembangunan, pemberdayaan masyarakat, kegiatan keagamaan, dan momen bersejarah Kelurahan Sidomukti.
+                    Arsip dokumentasi resmi program pembangunan, pemberdayaan masyarakat, kegiatan keagamaan, dan momen bersejarah Kelurahan Kandang Jati Kulon.
                 </p>
+
+                {{-- Category Filter Pills in Header (Matching Berita Index Style) --}}
+                @if(isset($categories) && $categories->count() > 0)
+                <div class="flex flex-wrap items-center gap-2 mt-5">
+                    <a href="{{ route('galleries.index', ['category' => 'all']) }}" 
+                       class="px-3.5 py-1.5 rounded-full text-xs font-semibold transition {{ ($selectedCategory ?? 'all') === 'all' ? 'bg-emerald-500 text-slate-950 font-bold shadow-sm' : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700' }}">
+                        Semua Album
+                    </a>
+                    @foreach($categories as $cat)
+                    <a href="{{ route('galleries.index', ['category' => $cat->slug]) }}" 
+                       class="px-3.5 py-1.5 rounded-full text-xs font-semibold transition {{ ($selectedCategory ?? '') === $cat->slug || ($selectedCategory ?? '') === $cat->name ? 'bg-emerald-500 text-slate-950 font-bold shadow-sm' : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700' }}">
+                        {{ $cat->name }}
+                    </a>
+                    @endforeach
+                </div>
+                @endif
             </div>
         </div>
     </div>
 
     <!-- Container Utama -->
-    <div class="container mx-auto px-4 max-w-7xl">
-
-        <!-- Filter Bar Kategori Kegiatan -->
-        <div class="bg-white rounded-2xl p-4 md:p-5 shadow-sm border border-slate-200/90 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
-                <a href="{{ route('galleries.index', ['category' => 'all']) }}" 
-                   class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap {{ ($category ?? 'all') === 'all' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">
-                   Semua Album
-                </a>
-                <a href="{{ route('galleries.index', ['category' => 'pembangunan']) }}" 
-                   class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap {{ ($category ?? '') === 'pembangunan' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">
-                   Pembangunan
-                </a>
-                <a href="{{ route('galleries.index', ['category' => 'pemberdayaan']) }}" 
-                   class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap {{ ($category ?? '') === 'pemberdayaan' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">
-                   Pemberdayaan
-                </a>
-                <a href="{{ route('galleries.index', ['category' => 'keagamaan']) }}" 
-                   class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap {{ ($category ?? '') === 'keagamaan' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">
-                   Keagamaan
-                </a>
-                <a href="{{ route('galleries.index', ['category' => 'hut-ri']) }}" 
-                   class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap {{ ($category ?? '') === 'hut-ri' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">
-                   HUT RI
-                </a>
-            </div>
-
-            <div class="text-xs text-slate-500 font-medium shrink-0">
-                Menampilkan {{ $albums->total() }} Album Foto
-            </div>
-        </div>
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
 
         <!-- Grid Album Kartu -->
         @if($albums->count() > 0)
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10">
+        <div class="grid grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-1.5 sm:gap-6 mb-10">
             @foreach($albums as $album)
             <a href="{{ route('galleries.show', $album->slug) }}" 
-               class="bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col group">
+               class="bg-white rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col group">
                 
                 <!-- Thumbnail Cover (16:9 Ratio) -->
                 <div class="relative aspect-video w-full overflow-hidden bg-slate-900">
@@ -96,41 +82,41 @@
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition duration-300"></div>
 
                     <!-- Category Badge Top-Left -->
-                    <div class="absolute top-3 left-3 z-10">
-                        <span class="px-2.5 py-1 bg-slate-900/80 backdrop-blur-md text-emerald-400 text-[10px] font-extrabold uppercase tracking-wider rounded-lg border border-slate-700">
-                            {{ ucfirst($album->category) }}
+                    <div class="absolute top-1.5 left-1.5 sm:top-3 sm:left-3 z-10">
+                        <span class="px-1.5 py-0.5 sm:px-2.5 sm:py-1 bg-slate-900/80 backdrop-blur-md text-emerald-400 text-[7px] sm:text-[10px] font-extrabold uppercase tracking-wider rounded-md sm:rounded-lg border border-slate-700">
+                            {{ $categories->firstWhere('slug', $album->category)?->name ?? $categories->firstWhere('name', $album->category)?->name ?? ucfirst($album->category) }}
                         </span>
                     </div>
 
                     <!-- Count Badge Bottom-Right -->
-                    <div class="absolute bottom-3 right-3 z-10">
-                        <span class="px-2.5 py-1 bg-emerald-600/90 backdrop-blur-md text-white text-[11px] font-extrabold rounded-lg shadow-md flex items-center gap-1 border border-white/20">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <div class="absolute bottom-1.5 right-1.5 sm:bottom-3 sm:right-3 z-10">
+                        <span class="px-1.5 py-0.5 sm:px-2.5 sm:py-1 bg-emerald-600/90 backdrop-blur-md text-white text-[7px] sm:text-[11px] font-extrabold rounded-md sm:rounded-lg shadow-md flex items-center gap-0.5 sm:gap-1 border border-white/20">
+                            <svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             {{ $album->photos_count }} Foto
                         </span>
                     </div>
                 </div>
 
                 <!-- Content Info -->
-                <div class="p-4 flex flex-col justify-between flex-grow">
+                <div class="p-2 sm:p-4 flex flex-col justify-between flex-grow">
                     <div>
-                        <h3 class="font-bold text-sm text-slate-800 leading-snug group-hover:text-emerald-700 transition line-clamp-2 mb-2">
+                        <h3 class="font-bold text-[9px] sm:text-sm text-slate-800 leading-tight sm:leading-snug group-hover:text-emerald-700 transition line-clamp-2 mb-1 sm:mb-2">
                             {{ $album->title }}
                         </h3>
                         @if($album->description)
-                        <p class="text-xs text-slate-500 line-clamp-2 mb-3">
+                        <p class="hidden sm:block text-xs text-slate-500 line-clamp-2 mb-3">
                             {{ $album->description }}
                         </p>
                         @endif
                     </div>
 
-                    <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
-                        <span class="flex items-center gap-1">
-                            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            {{ $album->event_date ? $album->event_date->translatedFormat('d F Y') : $album->created_at->translatedFormat('d F Y') }}
+                    <div class="pt-1.5 sm:pt-3 border-t border-slate-100 flex items-center justify-between text-[7px] sm:text-xs text-slate-500 font-medium">
+                        <span class="flex items-center gap-0.5 sm:gap-1">
+                            <svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <span class="truncate max-w-[50px] sm:max-w-none">{{ $album->event_date ? $album->event_date->translatedFormat('d M Y') : $album->created_at->translatedFormat('d M Y') }}</span>
                         </span>
                         <span class="text-emerald-600 font-bold group-hover:translate-x-0.5 transition flex items-center gap-0.5">
-                            Lihat Album &rarr;
+                            Lihat &rarr;
                         </span>
                     </div>
                 </div>
